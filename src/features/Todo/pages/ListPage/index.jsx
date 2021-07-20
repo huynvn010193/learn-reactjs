@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import queryString from "query-string";
 import TodoList from "../../components/TodoList";
 
@@ -24,11 +24,19 @@ function ListPage(props) {
     },
   ];
   const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
   const [todoList, setTodoList] = useState(initTodoList);
   const [filterStatus, setFilterStatus] = useState(() => {
     const params = queryString.parse(location.search);
     return params.status || "all";
   });
+
+  useEffect(() => {
+    const params = queryString.parse(location.search);
+    setFilterStatus(params.status || "all");
+  }, [location.search]);
+
   const handleTodoClick = (todo, idx) => {
     const newTodoList = [...todoList];
     newTodoList[idx] = {
@@ -39,20 +47,35 @@ function ListPage(props) {
   };
 
   const handleShowAllAction = () => {
-    setFilterStatus("all");
+    // setFilterStatus("all");
+    const queryParams = { status: "all" };
+    history.push({
+      pathname: match.path,
+      search: queryString.stringify(queryParams),
+    });
   };
 
   const handleShowCompleteClick = () => {
-    setFilterStatus("completed");
+    const queryParams = { status: "completed" };
+    history.push({
+      pathname: match.path,
+      search: queryString.stringify(queryParams),
+    });
   };
 
   const handleShowNewClick = () => {
-    setFilterStatus("new");
+    const queryParams = { status: "new" };
+    history.push({
+      pathname: match.path,
+      search: queryString.stringify(queryParams),
+    });
   };
 
-  const renderTodoList = todoList.filter(
-    (todo) => filterStatus === "all" || todo.status === filterStatus
-  );
+  const renderTodoList = useMemo(() => {
+    return todoList.filter(
+      (todo) => filterStatus === "all" || todo.status === filterStatus
+    );
+  }, [todoList, filterStatus]);
 
   return (
     <div>
