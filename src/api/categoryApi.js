@@ -1,25 +1,25 @@
-import axiosClient from "./axiosClient";
+import axiosClient from './axiosClient';
 
 const categoryApi = {
   getAll(params) {
-    const url = '/categories',
-    return axiosClient.get(url,{params});
+    const url = '/categories';
+    return axiosClient.get(url, { params });
   },
   get(id) {
-    const url = `/categories/${id}`,
+    const url = `/categories/${id}`;
     return axiosClient.get(url);
   },
   add(data) {
-    const url = '/categories',
-    return axiosClient.post(url,data);
+    const url = '/categories';
+    return axiosClient.post(url, data);
   },
   update(data) {
-    const url = `/categories/${id}`,
-    return axiosClient.patch(url,data);
+    const url = `/categories`;
+    return axiosClient.patch(url, data);
   },
   remove(id) {
-    const url = `/categories/${id}`,
-    return axiosClient.delete(url,data);
+    const url = `/categories/${id}`;
+    return axiosClient.delete(url);
   },
 };
 
