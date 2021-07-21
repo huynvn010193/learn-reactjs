@@ -7,11 +7,13 @@ InputField.propTypes = {
   form: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 function InputField(props) {
   const { form, name, label, disabled } = props;
+  const { errors, formState } = form;
+  const hashError = formState.touched[name] && errors[name];
   return (
     <Controller
       name={name}
@@ -20,6 +22,8 @@ function InputField(props) {
       fullWidth
       label={label}
       disabled={disabled}
+      error={!!hashError}
+      helperText={errors[name]?.message}
     />
   );
 }
