@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import NotFound from '../../components/NotFound';
+import TodoForm from './components/TodoForm';
 import DetailPage from './pages/DetailPage';
 import ListPage from './pages/ListPage';
 
@@ -8,9 +9,13 @@ TodoFeature.propTypes = {};
 
 function TodoFeature(props) {
   const match = useRouteMatch();
+  const handleTodoFormSubmit = (values) => {
+  }
   return (
     <div>
-      TODO SHARED UI
+      <h3>Todo Form</h3>
+      <TodoForm onSubmit={handleTodoFormSubmit} />
+      <h3>Todo List</h3>
       <Switch>
         <Route path={match.path} component={ListPage} exact />
         <Route path={`${match.path}/:todoId`} component={DetailPage} exact />
