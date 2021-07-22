@@ -9,13 +9,9 @@ TodoFeature.propTypes = {};
 
 function TodoFeature(props) {
   const match = useRouteMatch();
-  const handleTodoFormSubmit = (values) => {
-  }
+
   return (
     <div>
-      <h3>Todo Form</h3>
-      <TodoForm onSubmit={handleTodoFormSubmit} />
-      <h3>Todo List</h3>
       <Switch>
         <Route path={match.path} component={ListPage} exact />
         <Route path={`${match.path}/:todoId`} component={DetailPage} exact />
