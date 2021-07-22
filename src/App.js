@@ -1,11 +1,18 @@
 // import AlbumFeature from "./features/Album";
 import { useEffect } from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 import TodoFeature from './features/Todo';
 import AlbumFeature from './features/Album';
 import NotFound from './components/NotFound';
 import productApi from './api/productApi';
 import CounterFeature from './features/Counter';
+
+const Title = styled.h1`
+  text-align: center;
+  font-weight: bold;
+  color: ${(props) => props.color || 'green'};
+`;
 
 function App() {
   useEffect(() => {
@@ -20,7 +27,7 @@ function App() {
   }, []);
   return (
     <div className="App">
-      Home Page
+      <Title color="goldenrod">HEADING</Title>
       <h3>NavLink</h3>
       <p>
         <NavLink to="/todos">Todos</NavLink>
