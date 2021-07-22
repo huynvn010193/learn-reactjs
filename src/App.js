@@ -5,6 +5,7 @@ import TodoFeature from './features/Todo';
 import AlbumFeature from './features/Album';
 import NotFound from './components/NotFound';
 import productApi from './api/productApi';
+import CounterFeature from './features/Counter';
 
 function App() {
   useEffect(() => {
@@ -27,8 +28,12 @@ function App() {
       <p>
         <NavLink to="/album">Albums</NavLink>
       </p>
+      <p>
+        <NavLink to="/counter">Counter</NavLink>
+      </p>
       <Switch>
         <Route path="/todos" component={TodoFeature} />
+        <Route path="/counter" component={CounterFeature} />
         <Route path="/album" component={AlbumFeature} />
         <Route component={NotFound} />
       </Switch>
