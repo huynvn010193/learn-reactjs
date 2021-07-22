@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { decrease, increase } from './counterSlice';
-
+import styles from './styles.module.css';
 CounterFeature.propTypes = {};
 
 function CounterFeature(props) {
@@ -16,7 +16,7 @@ function CounterFeature(props) {
     dispatch(action);
   };
   return (
-    <div>
+    <div className={styles.counter}>
       Conter: {counter}
       <div>
         <button onClick={handleIncreaseClick}>Increase</button>
