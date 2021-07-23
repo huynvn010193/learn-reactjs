@@ -1,3 +1,4 @@
+import { FormHelperText } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -25,7 +26,7 @@ function PasswordField(props) {
     setShowPassword((x) => !x);
   };
   return (
-    <FormControl fullWidth variant="outlined" margin="normal">
+    <FormControl error={!!hashError} fullWidth variant="outlined" margin="normal">
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <Controller
         name={name}
@@ -42,9 +43,8 @@ function PasswordField(props) {
           </InputAdornment>
         }
         disabled={disabled}
-        error={!!hashError}
-        helperText={errors[name]?.message}
       />
+      <FormHelperText error={!!hashError}>{errors[name]?.message}</FormHelperText>
     </FormControl>
   );
 }
