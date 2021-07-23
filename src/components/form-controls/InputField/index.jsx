@@ -24,6 +24,8 @@ function InputField(props) {
       disabled={disabled}
       error={!!hashError}
       helperText={errors[name]?.message}
+      variant="outlined"
+      margin="normal"
     />
   );
 }
