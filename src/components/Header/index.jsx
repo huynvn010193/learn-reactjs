@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'none',
     color: '#fff',
-  }
+  },
 }));
 
 export default function Header() {
@@ -34,8 +34,10 @@ export default function Header() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (event, reason) => {
+    if (reason !== 'backdropClick') {
+      setOpen(false);
+    }
   };
   const classes = useStyles();
 
@@ -55,16 +57,12 @@ export default function Header() {
           <NavLink to="/album" className={classes.link}>
             <Button color="inherit">Albums</Button>
           </NavLink>
-          <Button color="inherit" onClick={handleClickOpen}>Register</Button>
+          <Button color="inherit" onClick={handleClickOpen}>
+            Register
+          </Button>
         </Toolbar>
       </AppBar>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-        disableBackdropClick
-        disableEscapeKeyDown
-      >
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableEscapeKeyDown>
         <DialogContent>
           <Register />
         </DialogContent>

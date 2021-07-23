@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Avatar, Typography } from '@material-ui/core';
+import { Avatar, Button, makeStyles, Typography } from '@material-ui/core';
 import { LockOpenOutlined } from '@material-ui/icons';
 import InputField from 'components/form-controls/InputField';
 import PropTypes from 'prop-types';
@@ -7,11 +7,29 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(4),
+  },
+  avatar: {
+    margin: '0 auto',
+    backgroundColor: theme.palette.secondary.main,
+  },
+  title: {
+    textAlign: 'center',
+    margin: theme.spacing(2, 0, 3, 0),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2, 0),
+  },
+}));
+
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func,
 };
 
 function RegisterForm(props) {
+  const classes = useStyles();
   const schema = yup.object().shape({
     title: yup.string().required('Please enter title').min(5, 'title is too short'),
   });
@@ -32,11 +50,11 @@ function RegisterForm(props) {
     form.reset();
   };
   return (
-    <div>
-      <Avatar>
+    <div className={classes.root}>
+      <Avatar className={classes.avatar}>
         <LockOpenOutlined></LockOpenOutlined>
       </Avatar>
-      <Typography component="h3" variant="h5">
+      <Typography component="h3" variant="h5" className={classes.title}>
         Create An account
       </Typography>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -44,6 +62,9 @@ function RegisterForm(props) {
         <InputField name="email" form={form} label="Email" />
         <InputField name="password" form={form} label="Password" />
         <InputField name="retypePassword" form={form} label="Retype Password" />
+        <Button className={classes.submit} variant="contained" color="primary" fullWidth>
+          Create an account
+        </Button>
       </form>
     </div>
   );
