@@ -8,6 +8,8 @@ import NotFound from './components/NotFound';
 import productApi from './api/productApi';
 import CounterFeature from './features/Counter';
 import Header from 'components/Header';
+import { Button } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 
 // const Title = styled.h1`
 //   text-align: center;
@@ -26,10 +28,18 @@ function App() {
     };
     fetchProducts();
   }, []);
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const showNoti = () => {
+    enqueueSnackbar('Register successfully', { variant: 'success' });
+  };
+
   return (
     <div className="App">
       {/* <Title color="goldenrod">HEADING</Title> */}
       <Header />
+      <Button onClick={showNoti}>Show noti</Button>
       <h3>NavLink</h3>
       <p>
         <NavLink to="/todos">Todos</NavLink>

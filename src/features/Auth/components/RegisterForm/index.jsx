@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Avatar, Button, makeStyles, Typography } from '@material-ui/core';
+import { Avatar, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import { LockOpenOutlined } from '@material-ui/icons';
 import InputField from 'components/form-controls/InputField';
 import PasswordField from 'components/form-controls/PasswordField';
@@ -10,6 +10,7 @@ import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'relative',
     paddingTop: theme.spacing(4),
   },
   avatar: {
@@ -23,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2, 0),
   },
+  progess: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    left: 0,
+    right: 0,
+  },
 }));
 
 RegisterForm.propTypes = {
@@ -31,6 +38,7 @@ RegisterForm.propTypes = {
 
 function RegisterForm(props) {
   const classes = useStyles();
+
   const schema = yup.object().shape({
     fullname: yup
       .string()
@@ -54,18 +62,24 @@ function RegisterForm(props) {
     },
     resolver: yupResolver(schema),
   });
-  const handleSubmit = (values) => {
+
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
     form.reset();
   };
+
+  const { isSubmitting } = form.formState;
   return (
     <div className={classes.root}>
+      {isSubmitting && <LinearProgress className={classes.progess} />}
+
       <Avatar className={classes.avatar}>
         <LockOpenOutlined></LockOpenOutlined>
       </Avatar>
+
       <Typography component="h3" variant="h5" className={classes.title}>
         Create An account
       </Typography>
@@ -74,7 +88,14 @@ function RegisterForm(props) {
         <InputField name="email" form={form} label="Email" />
         <PasswordField name="password" form={form} label="Password" />
         <PasswordField name="retypePassword" form={form} label="Retype Password" />
-        <Button type="submit" className={classes.submit} variant="contained" color="primary" fullWidth>
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className={classes.submit}
+          variant="contained"
+          color="primary"
+          fullWidth
+        >
           Create an account
         </Button>
       </form>
