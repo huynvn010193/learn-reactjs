@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import RegisterForm from '../RegisterForm';
 
 Register.propTypes = {
-  closeDialog: PropTypes.func
+  closeDialog: PropTypes.func,
 };
 
 function Register(props) {
@@ -26,7 +26,8 @@ function Register(props) {
       }
       enqueueSnackbar('Register successfully !!!', { variant: 'success', autoHideDuration: 2000 });
     } catch (error) {
-      console.log('Failed to register', error);
+      console.log('error', error);
+      enqueueSnackbar(error.message, { variant: 'error', autoHideDuration: 5000 });
     }
   };
   return (

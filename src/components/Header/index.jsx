@@ -10,6 +10,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CodeIcon from '@material-ui/icons/Code';
 import Register from 'features/Auth/components/Register';
+import { IconButton } from '@material-ui/core';
+import { Close } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'none',
     color: '#fff',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+    color: theme.palette.grey[500],
+    zIndex: 1,
   },
 }));
 
@@ -62,20 +71,14 @@ export default function Header() {
           </Button>
         </Toolbar>
       </AppBar>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-        disableEscapeKeyDown
-      >
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableEscapeKeyDown>
+        <IconButton className={classes.closeButton} onClick={handleClose}>
+          <Close />
+        </IconButton>
         <DialogContent>
           <Register closeDialog={handleClose} />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
+        <DialogActions></DialogActions>
       </Dialog>
     </div>
   );

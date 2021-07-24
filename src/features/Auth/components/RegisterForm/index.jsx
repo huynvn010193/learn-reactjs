@@ -68,7 +68,7 @@ function RegisterForm(props) {
     if (onSubmit) {
       await onSubmit(values);
     }
-    form.reset();
+    //form.reset();
   };
 
   const { isSubmitting } = form.formState;
@@ -95,6 +95,7 @@ function RegisterForm(props) {
           variant="contained"
           color="primary"
           fullWidth
+          size="large"
         >
           Create an account
         </Button>
