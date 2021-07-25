@@ -12,6 +12,7 @@ import CodeIcon from '@material-ui/icons/Code';
 import Register from 'features/Auth/components/Register';
 import { IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
+import Login from 'features/Auth/components/Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +77,8 @@ export default function Header() {
           <Close />
         </IconButton>
         <DialogContent>
-          <Register closeDialog={handleClose} />
+          {/* <Register closeDialog={handleClose} /> */}
+          <Login closeDialog={handleClose} />
         </DialogContent>
         <DialogActions></DialogActions>
       </Dialog>
