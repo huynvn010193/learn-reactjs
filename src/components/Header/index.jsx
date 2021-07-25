@@ -1,4 +1,4 @@
-import { Box, IconButton } from '@material-ui/core';
+import { Box, IconButton, Menu, MenuItem } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,6 +48,7 @@ export default function Header() {
   const isLogin = !!loggedInUser.id;
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
+  const [anchorEl, setAnchorEl] = useState(null);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -57,6 +58,16 @@ export default function Header() {
       setOpen(false);
     }
   };
+
+  // Show menu khi có anchorEl.
+  const handleUserClick = (e) => {
+    console.log("e.currentTarget", e.currentTarget);
+    setAnchorEl(e.currentTarget);
+  }
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  }
   const classes = useStyles();
 
   return (
@@ -81,12 +92,32 @@ export default function Header() {
             </Button>
           )}
           {isLogin && (
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={handleUserClick}>
               <AccountCircle />
             </IconButton>
           )}
         </Toolbar>
       </AppBar>
+
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleCloseMenu}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        getContentAnchorEl={null}
+      >
+        <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+      </Menu>
+
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableEscapeKeyDown>
         <IconButton className={classes.closeButton} onClick={handleClose}>
           <Close />
