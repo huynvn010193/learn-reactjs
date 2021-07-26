@@ -40,20 +40,7 @@ function App() {
     <div className="App">
       {/* <Title color="goldenrod">HEADING</Title> */}
       <Header />
-      <Button onClick={showNoti}>Show noti</Button>
-      <h3>NavLink</h3>
-      <p>
-        <NavLink to="/todos">Todos</NavLink>
-      </p>
-      <p>
-        <NavLink to="/album">Albums</NavLink>
-      </p>
-      <p>
-        <NavLink to="/counter">Counter</NavLink>
-      </p>
-      <p>
-        <NavLink to="/products">Products</NavLink>
-      </p>
+      {/* <Button onClick={showNoti}>Show noti</Button> */}
       <Switch>
         <Route path="/todos" component={TodoFeature} />
         <Route path="/counter" component={CounterFeature} />

@@ -1,3 +1,4 @@
+import { Box, Container, Grid } from '@material-ui/core';
 import React from 'react';
 
 ListProductPage.propTypes = {
@@ -6,9 +7,14 @@ ListProductPage.propTypes = {
 
 function ListProductPage(props) {
   return (
-    <div>
-      Product Listing Page
-    </div>
+    <Box>
+      <Container>
+        <Grid container>
+          <Grid item>Left Column</Grid>
+          <Grid item>Right Column</Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 }
 
