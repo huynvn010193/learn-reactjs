@@ -10,6 +10,7 @@ import CounterFeature from './features/Counter';
 import Header from 'components/Header';
 import { Button } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
+import ProductFeature from 'features/Product';
 
 // const Title = styled.h1`
 //   text-align: center;
@@ -50,10 +51,14 @@ function App() {
       <p>
         <NavLink to="/counter">Counter</NavLink>
       </p>
+      <p>
+        <NavLink to="/products">Products</NavLink>
+      </p>
       <Switch>
         <Route path="/todos" component={TodoFeature} />
         <Route path="/counter" component={CounterFeature} />
         <Route path="/album" component={AlbumFeature} />
+        <Route path="/products" component={ProductFeature} />
         <Route component={NotFound} />
       </Switch>
     </div>
