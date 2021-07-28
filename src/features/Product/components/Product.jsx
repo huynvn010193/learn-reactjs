@@ -11,12 +11,15 @@ function Product({ product }) {
   const thumbnaiUrl = product.thumbnail ? `${STATIC_HOST}${product.thumbnail?.url}` : THUMBNAIL_PLACEHOLDER;
   return (
     <Box padding={1}>
-      <Box padding={1}>
+      <Box padding={1} minHeight="215px">
         <img src={thumbnaiUrl} alt={product.name} width="100%" />
       </Box>
       <Typography variant="body2">{product.name}</Typography>
       <Typography variant="body2">
-        {product.salePrice} - {product.promotionPercent}
+        <Box component="span" fontSize="16px" fontWeight="bold" marginRight={1}>
+          {new Intl.NumberFormat('vn-VN', { style: 'currency', currency: 'VND' }).format(product.salePrice)}
+        </Box>
+        {product.promotionPercent > 0 && `- ${product.promotionPercent}%`}
       </Typography>
     </Box>
   );

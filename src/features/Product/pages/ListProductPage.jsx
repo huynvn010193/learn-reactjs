@@ -1,6 +1,7 @@
 import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import productApi from 'api/productApi';
 import React, { useEffect, useState } from 'react';
+import Pagination from '@material-ui/lab/Pagination';
 import ProductSkeletonList from '../components/ProductSkeletonList';
 import ProductList from '../components/ProductList';
 
@@ -21,18 +22,35 @@ function ListProductPage(props) {
   const classes = useStyles();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [pagination, setPagination] = useState({
+    linmit: 9,
+    page: 1,
+    total: 10,
+  })
+  const [filters, setFilters] = useState({
+    _page: 1,
+    _limit: 9,
+  });
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await productApi.getAll({ _page: 1, _limit: 10 });
+        setLoading(true);
+        const { data, pagination } = await productApi.getAll(filters);
         setProductList(data);
+        setPagination(pagination);
       } catch (error) {
         console.log('Faile to fecth product List', error);
       }
       setLoading(false);
     })();
-  }, []);
+  }, [filters]);
+
+  const handlePageChange = (e, page) => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      _page: page
+    }));
+  }
 
   return (
     <Box>
@@ -42,7 +60,24 @@ function ListProductPage(props) {
             <Paper elevation={0}>Left Column</Paper>
           </Grid>
           <Grid item className={classes.right}>
-            <Paper elevation={0}>{loading ? <ProductSkeletonList /> : <ProductList data={productList} />}</Paper>
+            <Paper elevation={0}>
+              {loading ? <ProductSkeletonList length={9} /> : <ProductList data={productList} />}
+              <Box
+                display="flex"
+                justifyContent="center"
+                flexDirection="row"
+                flexWrap="nowrap"
+                marginTop={2}
+                paddingBottom={2}
+              >
+                <Pagination
+                  count={Math.ceil(pagination.total / pagination.limit)}
+                  color="primary"
+                  page={pagination.page}
+                  onChange={handlePageChange}
+                />
+              </Box>
+            </Paper>
           </Grid>
         </Grid>
       </Container>
