@@ -42,8 +42,7 @@ function ListProductPage(props) {
         const { data, pagination } = await productApi.getAll(filters);
         setProductList(data);
         setPagination(pagination);
-      } catch (error) {
-      }
+      } catch (error) {}
       setLoading(false);
     })();
   }, [filters]);
@@ -70,8 +69,9 @@ function ListProductPage(props) {
   };
 
   const setNewFilters = (newFilters) => {
+    console.log('🚀 ~ file: ListProductPage.jsx ~ line 73 ~ setNewFilters ~ newFilters', newFilters);
     setFilters(newFilters);
-  }
+  };
 
   return (
     <Box>
