@@ -43,7 +43,6 @@ function ListProductPage(props) {
         setProductList(data);
         setPagination(pagination);
       } catch (error) {
-        console.log('Faile to fecth product List', error);
       }
       setLoading(false);
     })();
