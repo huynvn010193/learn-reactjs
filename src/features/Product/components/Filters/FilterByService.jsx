@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, TextField, Typography, makeStyles, FormControlLabel, Checkbox } from '@material-ui/core';
-import { useState } from 'react';
+import {
+  Box,
+  Typography,
+  makeStyles,
+  FormControlLabel,
+  Checkbox
+} from '@material-ui/core';
 
 FilterByService.propTypes = {
   onChange: PropTypes.func,
