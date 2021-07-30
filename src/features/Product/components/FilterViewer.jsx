@@ -26,7 +26,7 @@ const FILTER_LIST = [
     isActive: (filters) => filters.isFreeShip,
     isVisible: () => true,
     isRemoveable: false,
-    onRemove: () => {},
+    onRemove: () => { },
     onToggle: (filters) => {
       const newFilters = { ...filters };
       if (newFilters.isFreeShip) {
@@ -94,11 +94,9 @@ function FilterViewer({ filters = {}, onChange = null }) {
 
   const newFiltersCat = useMemo(() => {
     return !!filters['category.id']
-      ? { ...filters, catName: category.find((item) => item.id === filters['category.id'])?.name }
+      ? { ...filters, catName: category.find((item) => item.id === Number(filters['category.id']))?.name }
       : { ...filters };
   }, [filters, category]);
-
-  console.log('newFiltersCat', newFiltersCat);
 
   const visibleFilter = useMemo(() => {
     return FILTER_LIST.filter((x) => x.isVisible(newFiltersCat));
@@ -117,18 +115,18 @@ function FilterViewer({ filters = {}, onChange = null }) {
                 x.isRemoveable
                   ? null
                   : () => {
-                      if (!onChange) return;
-                      const newFilters = x.onToggle(newFiltersCat);
-                      onChange(newFilters);
-                    }
+                    if (!onChange) return;
+                    const newFilters = x.onToggle(newFiltersCat);
+                    onChange(newFilters);
+                  }
               }
               onDelete={
                 x.isRemoveable
                   ? () => {
-                      if (!onChange) return;
-                      const newFilters = x.onRemove(newFiltersCat);
-                      onChange(newFilters);
-                    }
+                    if (!onChange) return;
+                    const newFilters = x.onRemove(newFiltersCat);
+                    onChange(newFilters);
+                  }
                   : null
               }
             />
