@@ -9,6 +9,7 @@ import ProductSort from '../components/ProductSort';
 import ProductFilter from '../components/ProductFilter';
 import FilterViewer from '../components/FilterViewer';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
 
 ListProductPage.propTypes = {};
 
@@ -25,8 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ListProductPage(props) {
   const classes = useStyles();
-  const [productList, setProductList] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const history = useHistory();
 
   const [pagination, setPagination] = useState({
@@ -37,57 +37,75 @@ function ListProductPage(props) {
 
   const location = useLocation();
   // chuyển từ chuỗi sang obj.
-  const queryParams = queryString.parse(location.search);
 
-  const [filters, setFilters] = useState({
-    ...queryParams,
-    _page: Number.parseInt(queryParams._page) || 1,
-    _limit: Number.parseInt(queryParams._limit) || 9,
-    _sort: queryParams._sort || 'salePrice:ASC',
-  });
+  const queryParams = useMemo(() => {
+    const params = queryString.parse(location.search);
+    return {
+      ...params,
+      _page: Number.parseInt(params._page) || 1,
+      _limit: Number.parseInt(params._limit) || 9,
+      _sort: params._sort || 'salePrice:ASC',
+      isPromotion: params.isPromotion === 'true',
+      isFreeShip: params.isFreeShip === 'true',
+    };
+  }, [location.search]);
 
-  useEffect(() => {
-    history.push({
-      pathname: history.location.pathname,
-      search: queryString.stringify(filters),
-    });
-  }, [history, filters]);
+  const [productList, setProductList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const { data, pagination } = await productApi.getAll(filters);
+        const { data, pagination } = await productApi.getAll(queryParams);
         setProductList(data);
         setPagination(pagination);
       } catch (error) {}
       setLoading(false);
     })();
-  }, [filters]);
+  }, [queryParams]);
 
   const handlePageChange = (e, page) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      _page: page,
-    }));
+    const filters = {
+      ...queryParams,
+      page: page,
+    };
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
   };
 
   const handleSortChange = (newSortValue) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
+    const filters = {
+      ...queryParams,
       _sort: newSortValue,
-    }));
+    };
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
   };
 
   const handleFiltersChange = (newFilters) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
+    const filters = {
+      ...queryParams,
       ...newFilters,
-    }));
+    };
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
   };
 
   const setNewFilters = (newFilters) => {
-    setFilters(newFilters);
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(newFilters),
+    });
   };
 
   return (
@@ -96,13 +114,13 @@ function ListProductPage(props) {
         <Grid container>
           <Grid item className={classes.left}>
             <Paper elevation={0}>
-              <ProductFilter filters={filters} onChange={handleFiltersChange} />
+              <ProductFilter filters={queryParams} onChange={handleFiltersChange} />
             </Paper>
           </Grid>
           <Grid item className={classes.right}>
             <Paper elevation={0}>
-              <ProductSort currentSort={filters._sort} onChange={handleSortChange} />
-              <FilterViewer onChange={setNewFilters} filters={filters} />
+              <ProductSort currentSort={queryParams._sort} onChange={handleSortChange} />
+              <FilterViewer onChange={setNewFilters} filters={queryParams} />
               {loading ? <ProductSkeletonList length={9} /> : <ProductList data={productList} />}
               <Box
                 display="flex"
