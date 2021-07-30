@@ -22,6 +22,6 @@ const categorySlice = createSlice({
   },
 });
 
-const { actions, reducer } = categorySlice;
+const { reducer } = categorySlice;
 
 export default reducer;

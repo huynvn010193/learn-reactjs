@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Chip, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,14 +89,25 @@ FilterViewer.propTypes = {
 function FilterViewer({ filters = {}, onChange = null }) {
   const classes = useStyles();
   const { category } = useSelector((state) => state.category);
-  const newFiltersCat = !!filters['category.id']
-    ? { ...filters, catName: category.find((item) => item.id === filters['category.id']).name }
-    : { ...filters };
+
+  console.log({ category, filters });
+
+  const newFiltersCat = useMemo(() => {
+    return !!filters['category.id']
+      ? { ...filters, catName: category.find((item) => item.id === filters['category.id'])?.name }
+      : { ...filters };
+  }, [filters, category]);
+
+  console.log('newFiltersCat', newFiltersCat);
+
+  const visibleFilter = useMemo(() => {
+    return FILTER_LIST.filter((x) => x.isVisible(newFiltersCat));
+  }, [newFiltersCat]);
 
   return (
     <div>
       <Box component="ul" className={classes.root}>
-        {FILTER_LIST.filter((x) => x.isVisible(newFiltersCat)).map((x) => (
+        {visibleFilter.map((x) => (
           <li key={x.id}>
             <Chip
               label={x.getLabel(newFiltersCat)}

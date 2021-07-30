@@ -2,11 +2,13 @@ import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import productApi from 'api/productApi';
 import React, { useEffect, useState } from 'react';
 import Pagination from '@material-ui/lab/Pagination';
+import queryString from 'query-string';
 import ProductSkeletonList from '../components/ProductSkeletonList';
 import ProductList from '../components/ProductList';
 import ProductSort from '../components/ProductSort';
 import ProductFilter from '../components/ProductFilter';
 import FilterViewer from '../components/FilterViewer';
+import { useHistory, useLocation } from 'react-router-dom';
 
 ListProductPage.propTypes = {};
 
@@ -25,16 +27,32 @@ function ListProductPage(props) {
   const classes = useStyles();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
+
   const [pagination, setPagination] = useState({
     linmit: 9,
     page: 1,
     total: 10,
   });
+
+  const location = useLocation();
+  // chuyển từ chuỗi sang obj.
+  const queryParams = queryString.parse(location.search);
+
   const [filters, setFilters] = useState({
-    _page: 1,
-    _limit: 9,
-    _sort: 'salePrice:ASC',
+    ...queryParams,
+    _page: Number.parseInt(queryParams._page) || 1,
+    _limit: Number.parseInt(queryParams._limit) || 9,
+    _sort: queryParams._sort || 'salePrice:ASC',
   });
+
+  useEffect(() => {
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
+  }, [history, filters]);
+
   useEffect(() => {
     (async () => {
       try {
