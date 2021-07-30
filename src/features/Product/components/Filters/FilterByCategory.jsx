@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Box, Typography, makeStyles } from '@material-ui/core';
 import categoryApi from 'api/categoryApi';
+import { useDispatch } from 'react-redux';
+import { categoryAct } from './../../services/categorySlice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 FilterByCategory.propTypes = {
   onChange: PropTypes.func,
@@ -31,22 +34,14 @@ const useStyles = makeStyles((theme) => ({
 function FilterByCategory({ onChange }) {
   const [categoryList, setCategoryList] = useState([]);
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      try {
-        const list = await categoryApi.getAll();
-        setCategoryList(
-          list.map((x) => ({
-            id: x.id,
-            name: x.name,
-          }))
-        );
-      } catch (error) {
-        console.log('Failed to fetch category List', error);
-      }
+      const resultCategory = await dispatch(categoryAct());
+      setCategoryList(unwrapResult(resultCategory));
     })();
-  }, []);
+  }, [dispatch]);
 
   const handleCategoryClick = (category) => {
     if (onChange) {

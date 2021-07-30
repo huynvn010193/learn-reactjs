@@ -63,19 +63,19 @@ export default function Header() {
 
   // Show menu khi có anchorEl.
   const handleUserClick = (e) => {
-    console.log("e.currentTarget", e.currentTarget);
+    console.log('e.currentTarget', e.currentTarget);
     setAnchorEl(e.currentTarget);
-  }
+  };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
-  }
+  };
 
   const handleLogutClick = () => {
     const action = logout();
     dispatch(action);
     setAnchorEl(null);
-  }
+  };
 
   const classes = useStyles();
 

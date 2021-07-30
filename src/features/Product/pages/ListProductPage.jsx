@@ -69,7 +69,6 @@ function ListProductPage(props) {
   };
 
   const setNewFilters = (newFilters) => {
-    console.log('🚀 ~ file: ListProductPage.jsx ~ line 73 ~ setNewFilters ~ newFilters', newFilters);
     setFilters(newFilters);
   };
 

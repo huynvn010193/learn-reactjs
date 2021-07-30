@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Chip, makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,15 +64,20 @@ const FILTER_LIST = [
     },
     onToggle: null,
   },
-  // {
-  //   id: 4,
-  //   getLabel: (filters) => 'Danh mục',
-  //   isActive: (filters) => true,
-  //   isVisible: (filters) => true,
-  //   isRemoveable: true,
-  //   onRemove: true,
-  //   onToggle: true,
-  // },
+  {
+    id: 4,
+    getLabel: (filters) => `Danh mục ${filters.catName}`,
+    isActive: (filters) => true,
+    isVisible: (filters) => !!filters.catName,
+    isRemoveable: true,
+    onRemove: (filters) => {
+      const newFilters = { ...filters };
+      delete newFilters[`category.id`];
+      delete newFilters.catName;
+      return newFilters;
+    },
+    onToggle: true,
+  },
 ];
 
 FilterViewer.propTypes = {
@@ -81,21 +87,26 @@ FilterViewer.propTypes = {
 
 function FilterViewer({ filters = {}, onChange = null }) {
   const classes = useStyles();
+  const { category } = useSelector((state) => state.category);
+  const newFiltersCat = !!filters['category.id']
+    ? { ...filters, catName: category.find((item) => item.id === filters['category.id']).name }
+    : { ...filters };
+
   return (
     <div>
       <Box component="ul" className={classes.root}>
-        {FILTER_LIST.filter((x) => x.isVisible(filters)).map((x) => (
+        {FILTER_LIST.filter((x) => x.isVisible(newFiltersCat)).map((x) => (
           <li key={x.id}>
             <Chip
-              label={x.getLabel(filters)}
-              color={x.isActive(filters) ? 'primary' : 'default'}
+              label={x.getLabel(newFiltersCat)}
+              color={x.isActive(newFiltersCat) ? 'primary' : 'default'}
               clickable={Boolean(!x.isRemoveable)}
               onClick={
                 x.isRemoveable
                   ? null
                   : () => {
                       if (!onChange) return;
-                      const newFilters = x.onToggle(filters);
+                      const newFilters = x.onToggle(newFiltersCat);
                       onChange(newFilters);
                     }
               }
@@ -103,7 +114,7 @@ function FilterViewer({ filters = {}, onChange = null }) {
                 x.isRemoveable
                   ? () => {
                       if (!onChange) return;
-                      const newFilters = x.onRemove(filters);
+                      const newFilters = x.onRemove(newFiltersCat);
                       onChange(newFilters);
                     }
                   : null
