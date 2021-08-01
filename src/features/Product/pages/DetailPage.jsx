@@ -5,6 +5,7 @@ import { useRouteMatch } from 'react-router-dom';
 import useProductDetail from '../hooks/useProductDetail';
 import ProductInfo from '../components/ProductInfo';
 import AddToCardForm from '../components/AddToCardForm';
+import ProductMenu from '../components/ProductMenu';
 
 DetailProductPage.propTypes = {};
 
@@ -51,6 +52,7 @@ function DetailProductPage() {
             </Grid>
           </Grid>
         </Paper>
+        <ProductMenu />
       </Container>
     </Box>
   );
