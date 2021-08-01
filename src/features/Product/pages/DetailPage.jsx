@@ -4,6 +4,7 @@ import ProductThumbnail from '../components/ProductThumbnail';
 import { useRouteMatch } from 'react-router-dom';
 import useProductDetail from '../hooks/useProductDetail';
 import ProductInfo from '../components/ProductInfo';
+import AddToCardForm from '../components/AddToCardForm';
 
 DetailProductPage.propTypes = {};
 
@@ -32,7 +33,9 @@ function DetailProductPage() {
     <Box>Loading</Box>;
   }
 
-  console.log('product', product);
+  const handleAddToCardSubmit = (formValues) => {
+    console.log('Form submit', formValues);
+  };
 
   return (
     <Box className={classes.root}>
@@ -44,6 +47,7 @@ function DetailProductPage() {
             </Grid>
             <Grid item className={classes.right}>
               <ProductInfo product={product} />
+              <AddToCardForm onSubmit={handleAddToCardSubmit} />
             </Grid>
           </Grid>
         </Paper>

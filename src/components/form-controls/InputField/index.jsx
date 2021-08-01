@@ -18,14 +18,21 @@ function InputField(props) {
     <Controller
       name={name}
       control={form.control}
-      as={TextField}
-      fullWidth
-      label={label}
-      disabled={disabled}
-      error={!!hashError}
-      helperText={errors[name]?.message}
-      variant="outlined"
-      margin="normal"
+      render={({ onChange, onBlur, value, name }) => (
+        <TextField
+          fullWidth
+          label={label}
+          disabled={disabled}
+          error={!!hashError}
+          helperText={errors[name]?.message}
+          variant="outlined"
+          margin="normal"
+          name={name}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      )}
     />
   );
 }
