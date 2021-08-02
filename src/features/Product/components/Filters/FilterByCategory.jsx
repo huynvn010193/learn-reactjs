@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Box, Typography, makeStyles } from '@material-ui/core';
-import categoryApi from 'api/categoryApi';
 import { useDispatch } from 'react-redux';
 import { categoryAct } from './../../services/categorySlice';
 import { unwrapResult } from '@reduxjs/toolkit';

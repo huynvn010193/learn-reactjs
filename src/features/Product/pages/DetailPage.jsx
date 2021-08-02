@@ -1,16 +1,21 @@
 import React from 'react';
-import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
 import ProductThumbnail from '../components/ProductThumbnail';
-import { useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import useProductDetail from '../hooks/useProductDetail';
 import ProductInfo from '../components/ProductInfo';
 import AddToCardForm from '../components/AddToCardForm';
 import ProductMenu from '../components/ProductMenu';
+import ProductDescription from '../components/ProductDescription';
+import ProductAdditional from '../components/ProductAdditional';
+import ProductReviews from '../components/ProductReviews';
 
 DetailProductPage.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    paddingBottom: theme.spacing(3)
+  },
   left: {
     width: '400px',
     padding: theme.spacing(1.5),
@@ -20,18 +25,29 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 1 0',
     padding: theme.spacing(1.5),
   },
+  loading: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%'
+  }
 }));
 
 function DetailProductPage() {
   const classes = useStyles();
   const {
     params: { productId },
+    url,
   } = useRouteMatch();
 
   const { product, loading } = useProductDetail(productId);
 
   if (loading) {
-    <Box>Loading</Box>;
+    return (
+      <Box className={classes.loading}>
+        <LinearProgress />
+      </Box>
+    )
   }
 
   const handleAddToCardSubmit = (formValues) => {
@@ -53,6 +69,13 @@ function DetailProductPage() {
           </Grid>
         </Paper>
         <ProductMenu />
+        <Switch>
+          <Route exact path={url}>
+            <ProductDescription product={product} />
+          </Route>
+          <Route path={`${url}/additional`} exact component={ProductAdditional} />
+          <Route path={`${url}/review`} exact component={ProductReviews} />
+        </Switch>
       </Container>
     </Box>
   );
