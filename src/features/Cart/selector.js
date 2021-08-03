@@ -9,5 +9,5 @@ export const cartItemsCountSelector = createSelector(cartItemSelector, (cartItem
 
 // Cacular total of card
 export const cartTotalSelector = createSelector(cartItemSelector, (cartItems) =>
-  cartItems.reduce((total, item) => total + item.salePrice * item.quantity, 0)
+  cartItems.reduce((total, item) => total + item.product.salePrice * item.quantity, 0)
 );

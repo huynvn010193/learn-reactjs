@@ -9,6 +9,8 @@ import ProductMenu from '../components/ProductMenu';
 import ProductDescription from '../components/ProductDescription';
 import ProductAdditional from '../components/ProductAdditional';
 import ProductReviews from '../components/ProductReviews';
+import { useDispatch } from 'react-redux';
+import { addToCart } from 'features/Cart/cartSlice';
 
 DetailProductPage.propTypes = {};
 
@@ -41,6 +43,7 @@ function DetailProductPage() {
   } = useRouteMatch();
 
   const { product, loading } = useProductDetail(productId);
+  const dispatch = useDispatch();
 
   if (loading) {
     return (
@@ -50,8 +53,13 @@ function DetailProductPage() {
     )
   }
 
-  const handleAddToCardSubmit = (formValues) => {
-    console.log('Form submit', formValues);
+  const handleAddToCardSubmit = ({ quantity }) => {
+    const actions = addToCart({
+      id: product.id,
+      product,
+      quantity
+    })
+    dispatch(actions);
   };
 
   return (
