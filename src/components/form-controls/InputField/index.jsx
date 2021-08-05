@@ -14,6 +14,7 @@ function InputField(props) {
   const { form, name, label, disabled } = props;
   const { errors, formState } = form;
   const hashError = formState.touched[name] && errors[name];
+  
   return (
     <Controller
       name={name}

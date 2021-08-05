@@ -44,6 +44,7 @@ function LoginForm(props) {
     password: yup.string().required('Please enter your password'),
   });
   const form = useForm({
+    mode: "onChange",
     defaultValues: {
       identifier: '',
       password: '',
@@ -59,7 +60,11 @@ function LoginForm(props) {
     //form.reset();
   };
 
-  const { isSubmitting } = form.formState;
+  const { isSubmitting, errors, touched } = form.formState;
+  console.log("🚀 ~ file: index.jsx ~ line 64 ~ LoginForm ~ touched", touched)
+  const isTouched = touched && Object.keys(touched).length > 0;
+  const hasError = errors && Object.keys(errors).length > 0;
+
   return (
     <div className={classes.root}>
       {isSubmitting && <LinearProgress className={classes.progess} />}
@@ -75,7 +80,7 @@ function LoginForm(props) {
         <InputField name="identifier" form={form} label="Email" />
         <PasswordField name="password" form={form} label="Password" />
         <Button
-          disabled={isSubmitting}
+          disabled={isSubmitting || hasError || !isTouched}
           type="submit"
           className={classes.submit}
           variant="contained"
