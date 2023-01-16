@@ -3,7 +3,6 @@ import { Field, Form, Formik } from 'formik';
 import { CheckboxWithLabel, TextField } from 'formik-material-ui';
 
 const HomePage = () => {
-  const validate = Yup.object({})
   return (
     <Card>
       <CardContent>

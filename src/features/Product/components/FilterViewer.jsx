@@ -90,8 +90,6 @@ function FilterViewer({ filters = {}, onChange = null }) {
   const classes = useStyles();
   const { category } = useSelector((state) => state.category);
 
-  console.log({ category, filters });
-
   const newFiltersCat = useMemo(() => {
     return !!filters['category.id']
       ? { ...filters, catName: category.find((item) => item.id === Number(filters['category.id']))?.name }
