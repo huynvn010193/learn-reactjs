@@ -14,11 +14,11 @@ function App() {
       <Header />
       <Switch>
       <Route path="/" component={HomePage} exact/>
-        <Route path="/todos" component={TodoFeature} exact />
-        <Route path="/counter" component={CounterFeature} exact />
-        <Route path="/album" component={AlbumFeature} exact />
-        <Route path="/products" component={ProductFeature} exact />
-        <Route path="/cart" component={CartFeature} exact />
+        <Route path="/todos" component={TodoFeature} />
+        <Route path="/counter" component={CounterFeature} />
+        <Route path="/album" component={AlbumFeature} />
+        <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeature} />
         <Route component={NotFound} />
       </Switch>
     </div>
